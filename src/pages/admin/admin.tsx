@@ -20,8 +20,9 @@ function TabPanel(props: {
 export default function AdminPage() {
   const [value, setValue] = useState("1");
 
-  const handleChange = (newValue: any) => {
-    setValue(String(newValue)); // Ensuring it's a string for type safety
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    event.preventDefault();
+    setValue(String(newValue)); // Set the selected tab value (e.g., index)
   };
 
   return (

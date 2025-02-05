@@ -87,7 +87,12 @@ export default function OrdersTab() {
   return (
     <div className="orders-container">
       <h1 className="title">All Orders</h1>
-      <FormControl variant="outlined" size="small" className="filter-dropdown">
+      <FormControl
+        variant="outlined"
+        size="small"
+        className="filter-dropdown"
+        style={{ margin: "10px" }}
+      >
         <InputLabel>Filter by Status</InputLabel>
         <Select
           value={statusFilter}

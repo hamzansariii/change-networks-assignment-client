@@ -143,7 +143,7 @@ export default function AdminProductsContainer() {
                   onClick={() => handleEdit(product)}
                   className="edit-button"
                 >
-                  Edit
+                  Edit Product
                 </Button>
               </CardContent>
             </Card>
