@@ -1,0 +1,34 @@
+.members-container {
+  max-width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.table-title {
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #333;
+}
+
+.table-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.table-row:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table-row:hover {
+  background-color: #e0f7fa;
+}
+
+@media screen and (max-width: 768px) {
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .table-row {
+    font-size: 14px;
+  }
+}

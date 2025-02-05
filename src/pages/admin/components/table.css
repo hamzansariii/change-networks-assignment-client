@@ -1,0 +1,76 @@
+/* Container and Table Styles */
+.container {
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+  background-color: #f7fafc;
+}
+
+thead th {
+  padding: 12px;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4a5568;
+}
+
+tbody tr {
+  transition: background-color 0.3s;
+}
+
+tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Table Cell Styling */
+td {
+  padding: 12px;
+  font-size: 1rem;
+  color: #4a5568;
+  border: 1px solid #e0e0e0;
+}
+
+/* Price Formatting */
+td.price {
+  color: #2d3748;
+  font-weight: 600;
+}
+
+/* Image Styling */
+img.product-image {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Action Button Styling */
+button {
+  background-color: #3182ce;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button:hover {
+  background-color: #2b6cb0;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.6);
+}
