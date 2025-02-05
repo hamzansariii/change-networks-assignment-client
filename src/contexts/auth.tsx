@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 // Define the AuthContext type
 interface AuthContextType {
   token: string | "";
-  setToken: (value: string | null) => void;
+  setToken: (value: string | "") => void;
   isAuthenticated: boolean;
   setIsAuthenticated: (value: boolean) => void;
   role: string | null;
@@ -20,7 +20,7 @@ interface AuthProviderProps {
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string | string>("");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [role, setRole] = useState<string | null>(null);

@@ -17,7 +17,7 @@ import "../../../styles/AdminProducts.css"; // External CSS
 import ProductFormModal from "./productFormModal";
 
 interface Product {
-  id: number;
+  _id: string;
   name: string;
   description: string;
   price: number;
@@ -48,7 +48,13 @@ export default function AdminProductsContainer() {
     setProducts(sortedProducts);
   };
 
-  const handlePageChange = (value: number) => setPage(value);
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    event.preventDefault();
+    setPage(page);
+  };
 
   const startIndex = (page - 1) * productsPerPage;
   const paginatedProducts = products.slice(
@@ -112,7 +118,7 @@ export default function AdminProductsContainer() {
       </div>
       <Grid container spacing={3} className="products-grid">
         {paginatedProducts.map((product) => (
-          <Grid item key={product.id} xs={12} sm={6} md={4}>
+          <Grid item key={product._id} xs={12} sm={6} md={4}>
             <Card className="product-card">
               <CardMedia
                 component="img"

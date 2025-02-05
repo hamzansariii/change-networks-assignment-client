@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
+import { SelectChangeEvent } from "@mui/material";
 import {
   Box,
   Button,
@@ -26,7 +27,7 @@ const style = {
 };
 
 interface User {
-  _id: string;
+  _id?: string; // Make _id optional
   name: string;
   age: number;
   email: string;
@@ -38,7 +39,7 @@ interface User {
 interface Props {
   open: boolean;
   handleClose: () => void;
-  user: User | null;
+  user: User;
   onSuccess: () => void;
 }
 
@@ -91,8 +92,11 @@ const UserFormModal: React.FC<Props> = ({
     fetchManagerEmails();
   }, []);
 
+  // For handling changes for both TextField and Select components
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | SelectChangeEvent<string>
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name as string]: value });

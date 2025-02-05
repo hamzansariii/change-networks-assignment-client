@@ -7,9 +7,11 @@ import "../../../styles/UserTable.css"; // External CSS file
 import UserFormModal from "./userFormModal";
 
 interface User {
+  _id: string;
   name: string;
-  email: string;
   age: number;
+  email: string;
+  password: string;
   role: string;
   manager_email?: string;
 }

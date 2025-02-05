@@ -43,8 +43,12 @@ export default function ProductsContainer() {
     setProducts(sortedProducts);
   };
 
-  const handlePageChange = (page: number) => {
-    setPage(page); // Assuming you have a state setter like setPage
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    event.preventDefault();
+    setPage(page);
   };
 
   const startIndex = (page - 1) * productsPerPage;

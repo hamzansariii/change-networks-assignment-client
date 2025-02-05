@@ -14,7 +14,7 @@ export default function Header() {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    setToken(null);
+    setToken("");
     setUserEmail(null);
     setRole(null);
 

@@ -52,8 +52,13 @@ export default function YourOrdersContainer() {
     };
     fetchOrders();
   }, [userEmail, token]);
-
-  const handlePageChange = (value: number) => setPage(value);
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    event.preventDefault();
+    setPage(page);
+  };
 
   const startIndex = (page - 1) * ordersPerPage;
   const paginatedOrders = orders.slice(startIndex, startIndex + ordersPerPage);
