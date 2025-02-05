@@ -134,26 +134,38 @@ export default function OrdersTab() {
 
                 {/* Customer Details */}
                 <div className="customer-details">
-                  <Typography
-                    variant="subtitle2"
-                    style={{ textAlign: "center" }}
-                  >
-                    Customer Details:
-                  </Typography>
-                  <Typography variant="body2">
-                    <strong>Name:</strong> {order.customer_details.name}
-                  </Typography>
-                  <Typography variant="body2">
-                    <strong>Customer Email:</strong>{" "}
-                    {order.customer_details.email}
-                  </Typography>
-                  <Typography variant="body2">
-                    <strong>Customer Age:</strong> {order.customer_details.age}
-                  </Typography>
-                  <Typography variant="body2">
-                    <strong>Manager Email:</strong>{" "}
-                    {order.customer_details.manager_email}
-                  </Typography>
+                  {order.customer_details ? (
+                    <>
+                      <Typography
+                        variant="subtitle2"
+                        style={{ textAlign: "center" }}
+                      >
+                        Customer Details:
+                      </Typography>
+                      <Typography variant="body2">
+                        <strong>Name:</strong> {order.customer_details.name}
+                      </Typography>
+                      <Typography variant="body2">
+                        <strong>Customer Email:</strong>{" "}
+                        {order.customer_details.email}
+                      </Typography>
+                      <Typography variant="body2">
+                        <strong>Customer Age:</strong>{" "}
+                        {order.customer_details.age}
+                      </Typography>
+                      <Typography variant="body2">
+                        <strong>Manager Email:</strong>{" "}
+                        {order.customer_details.manager_email}
+                      </Typography>
+                    </>
+                  ) : (
+                    <Typography
+                      variant="subtitle2"
+                      style={{ textAlign: "center" }}
+                    >
+                      Customer Details Not Available [Customer Deleted]
+                    </Typography>
+                  )}
                 </div>
 
                 <FormControl

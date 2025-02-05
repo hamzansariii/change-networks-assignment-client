@@ -17,18 +17,20 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+
 interface ProductFormModalProps {
   open: boolean;
   handleClose: () => void;
   product?: Product | null;
   onProductUpdated: () => void;
 }
+
 interface Product {
   _id?: string;
   name: string;
   description: string;
   price: number;
-  image_src: string | File; // Allow both string (URL) and File
+  image_src: string | File;
 }
 
 export default function ProductFormModal({
@@ -51,14 +53,14 @@ export default function ProductFormModal({
         name: product.name || "",
         description: product.description || "",
         price: product.price || 0,
-        image_src: "", // Reset image_src field for new uploads
+        image_src: "",
       });
     } else {
       setFormData({
         name: "",
         description: "",
-        price: 0, // Ensure price is a number
-        image_src: "", // Ensure consistency in image handling
+        price: 0,
+        image_src: "",
       });
     }
   }, [product]);
@@ -67,7 +69,7 @@ export default function ProductFormModal({
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === "price" ? Math.max(0, parseFloat(value)) : value,
     }));
   };
 
@@ -83,6 +85,18 @@ export default function ProductFormModal({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!formData.name.trim()) {
+      alert("Product name is required.");
+      return;
+    }
+    if (!formData.description.trim()) {
+      alert("Description is required.");
+      return;
+    }
+    if (formData.price <= 0) {
+      alert("Price must be greater than zero.");
+      return;
+    }
     if (!formData.image_src && !product) {
       alert("Please upload an image.");
       return;
@@ -118,13 +132,47 @@ export default function ProductFormModal({
             : "Product added successfully!"
         );
         handleClose();
-        onProductUpdated(); // Refresh product list
+        onProductUpdated();
       } else {
         alert("Error submitting the form.");
       }
     } catch (error) {
       console.error("Error:", error);
       alert("Failed to submit the form.");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!product?._id) return;
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/products/delete/${
+          product._id
+        }`,
+        {
+          method: "DELETE",
+          headers: {
+            "x-access-token": token,
+          },
+        }
+      );
+
+      if (response.ok) {
+        alert("Product deleted successfully!");
+        handleClose();
+        onProductUpdated();
+      } else {
+        alert("Error deleting the product.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Failed to delete the product.");
     }
   };
 
@@ -162,6 +210,7 @@ export default function ProductFormModal({
             value={formData.price}
             onChange={handleChange}
             required
+            inputProps={{ min: 0 }}
           />
           <input
             type="file"
@@ -169,10 +218,15 @@ export default function ProductFormModal({
             onChange={handleFileChange}
             style={{ margin: "10px 0", width: "100%" }}
           />
-          <Box mt={2}>
+          <Box mt={2} display="flex" justifyContent="space-between">
             <Button variant="contained" color="primary" type="submit">
               {product ? "Update" : "Submit"}
             </Button>
+            {product && (
+              <Button variant="contained" color="error" onClick={handleDelete}>
+                Delete
+              </Button>
+            )}
           </Box>
         </form>
       </Box>

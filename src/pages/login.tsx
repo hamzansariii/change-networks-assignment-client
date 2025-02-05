@@ -1,9 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { Container, TextField, Button, Typography, Box } from "@mui/material";
 import { useAuth } from "../contexts/auth";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/images/logo.png"; // Add your image path
+import logo from "../assets/images/logo.png";
 import "../styles/LoginPage.css";
+
+interface LoginForm {
+  email: string;
+  password: string;
+}
+
+const routes: Record<string, string> = {
+  Admin: "/admin",
+  Manager: "/manager",
+  Employee: "/employee",
+};
+
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Invalid email format")
+    .required("Email is required"),
+  password: yup
+    .string()
+    .min(3, "Password must be at least 3 characters")
+    .required("Password is required"),
+});
 
 const LoginPage = () => {
   const {
@@ -15,60 +40,43 @@ const LoginPage = () => {
     setRole,
   } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>({ resolver: yupResolver(schema) });
 
   useEffect(() => {
     if (isAuthenticated) {
-      switch (role) {
-        case "Admin":
-          navigate("/admin");
-          break;
-        case "Manager":
-          navigate("/manager");
-          break;
-        case "Employee":
-          navigate("/employee");
-          break;
-        default:
-          break;
-      }
+      navigate(routes[role as keyof typeof routes] || "/");
     }
   }, [isAuthenticated, role, navigate]);
 
-  const handleLogin = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
+  const onSubmit = async (data: LoginForm) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (response.ok) {
+        const resData = await response.json();
+        setIsAuthenticated(true);
+        setToken(resData.token);
+        setUserEmail(resData.email);
+        setRole(resData.role);
+        localStorage.setItem("AuthToken", resData.token);
+        navigate(routes[resData.role as keyof typeof routes] || "/");
+      } else {
+        alert("Username or Password Incorrect!");
       }
-    );
-    if (response.ok) {
-      const resData = await response.json();
-      setIsAuthenticated(true);
-      setToken(resData.token);
-      setUserEmail(resData.email);
-      setRole(resData.role);
-      localStorage.setItem("AuthToken", resData.token);
-      switch (resData.role) {
-        case "Admin":
-          navigate("/admin");
-          break;
-        case "Manager":
-          navigate("/manager");
-          break;
-        case "Employee":
-          navigate("/employee");
-          break;
-        default:
-          break;
-      }
-    } else {
-      alert("Username or Password Incorrect!");
+    } catch (error) {
+      alert((error as Error).message);
     }
   };
 
@@ -79,34 +87,38 @@ const LoginPage = () => {
         <Typography variant="h4" className="login-title">
           Login
         </Typography>
-        <TextField
-          label="Email"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="login-input"
-        />
-        <TextField
-          label="Password"
-          type="password"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="login-input"
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          className="login-button"
-          onClick={handleLogin}
-        >
-          Login
-        </Button>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            {...register("email")}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            {...register("password")}
+            error={!!errors.password}
+            helperText={errors.password?.message}
+          />
+
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            className="login-button"
+            type="submit"
+          >
+            Login
+          </Button>
+        </form>
       </Box>
     </Container>
   );

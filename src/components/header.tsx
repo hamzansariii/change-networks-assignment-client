@@ -26,7 +26,7 @@ export default function Header() {
   };
   return (
     <Box sx={{ flexGrow: 1, height: "40px" }}>
-      <AppBar position="fixed" style={{ background: "gray" }}>
+      <AppBar position="fixed" style={{ background: "#00CED1" }}>
         <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
           <div
             style={{
@@ -37,7 +37,11 @@ export default function Header() {
             }}
           >
             <img src={logo} alt="Company Logo" height={50} />
-            <Typography color="inherit" variant="h6">
+            <Typography
+              color="inherit"
+              variant="h6"
+              style={{ marginLeft: "5px" }}
+            >
               {role === "Admin"
                 ? "Admin Panel"
                 : role === "Manager"
@@ -47,7 +51,11 @@ export default function Header() {
                 : "Panel"}
             </Typography>
           </div>
-          <Button color="inherit" onClick={() => handleLogout()}>
+          <Button
+            color="error"
+            variant="contained"
+            onClick={() => handleLogout()}
+          >
             Logout
           </Button>
         </Toolbar>

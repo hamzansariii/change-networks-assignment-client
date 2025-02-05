@@ -27,7 +27,7 @@ const style = {
 };
 
 interface User {
-  _id?: string; // Make _id optional
+  _id?: string;
   name: string;
   age: number;
   email: string;
@@ -62,22 +62,8 @@ const UserFormModal: React.FC<Props> = ({
   const [managerEmailList, setManagerEmailList] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log("USER = ", user);
-    if (user) setFormData(user); // Pre-fill fields if editing
+    if (user) setFormData(user);
   }, [user]);
-
-  const handleModalClose = () => {
-    setFormData({
-      _id: "",
-      name: "",
-      age: 0,
-      email: "",
-      password: "",
-      role: "",
-      manager_email: "",
-    });
-    handleClose();
-  };
 
   useEffect(() => {
     const fetchManagerEmails = async () => {
@@ -97,7 +83,6 @@ const UserFormModal: React.FC<Props> = ({
     fetchManagerEmails();
   }, []);
 
-  // For handling changes for both TextField and Select components
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -109,18 +94,15 @@ const UserFormModal: React.FC<Props> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const method = user ? "PUT" : "POST"; // PUT for edit, POST for new user
+    const method = user ? "PUT" : "POST";
     const url = user
       ? `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/users/update/${
           user._id
         }`
       : `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/users/add`;
 
-    if (!user) {
-      delete formData._id;
-    }
+    if (!user) delete formData._id;
 
-    console.log("Submit = ", formData);
     const response = await fetch(url, {
       method,
       headers: {
@@ -131,14 +113,37 @@ const UserFormModal: React.FC<Props> = ({
     });
 
     if (response.ok) {
-      console.log(user ? "Updated Successfully" : "Added Successfully");
       onSuccess();
-      handleModalClose();
+      handleClose();
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!user || !user._id) return;
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this user?"
+    );
+    if (!confirmDelete) return;
+
+    const response = await fetch(
+      `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/users/delete/${
+        user._id
+      }`,
+      {
+        method: "DELETE",
+        headers: { "x-access-token": token },
+      }
+    );
+
+    if (response.ok) {
+      onSuccess();
+      handleClose();
     }
   };
 
   return (
-    <Modal open={open} onClose={handleModalClose}>
+    <Modal open={open} onClose={handleClose}>
       <Box sx={style}>
         <Typography variant="h6">
           {user ? "Edit User" : "Add New User"}
@@ -215,9 +220,24 @@ const UserFormModal: React.FC<Props> = ({
               </Select>
             </FormControl>
           )}
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+          >
             {user ? "Update" : "Submit"}
           </Button>
+          {user && (
+            <Button
+              variant="contained"
+              color="error"
+              sx={{ mt: 2, ml: 2 }}
+              onClick={handleDelete}
+            >
+              Delete
+            </Button>
+          )}
         </form>
       </Box>
     </Modal>
