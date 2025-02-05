@@ -69,11 +69,17 @@ export default function OrdersTab() {
         order._id === orderId ? { ...order, order_status: newStatus } : order
       )
     );
-    await fetch("/api/orders/status", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-access-token": token },
-      body: JSON.stringify({ id: orderId, status: newStatus }),
-    });
+    await fetch(
+      `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/orders/status`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+        body: JSON.stringify({ id: orderId, status: newStatus }),
+      }
+    );
   };
 
   const filteredOrders =
