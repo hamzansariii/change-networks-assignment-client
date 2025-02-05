@@ -81,9 +81,9 @@ export default function YourOrdersContainer() {
               <CardMedia
                 component="img"
                 height="160"
-                image={
-                  "http://localhost:3500" + order.product_details.image_src
-                }
+                image={`${import.meta.env.VITE_EXPRESS_API_BASE_URI}${
+                  order.product_details.image_src
+                }`}
                 alt={order.product_details.name}
               />
               <CardContent>
@@ -94,7 +94,7 @@ export default function YourOrdersContainer() {
                   {order.product_details.description}
                 </Typography>
                 <Typography variant="h6" color="primary" mt={1}>
-                  ${order.product_details.price.toFixed(2)}
+                  ₹{order.product_details.price.toFixed(2)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   Status: {order.order_status}

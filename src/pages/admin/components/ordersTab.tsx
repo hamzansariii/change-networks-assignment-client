@@ -113,9 +113,9 @@ export default function OrdersTab() {
               <CardMedia
                 component="img"
                 className="order-image"
-                image={
-                  "http://localhost:3500" + order.product_details.image_src
-                }
+                image={`${import.meta.env.VITE_EXPRESS_API_BASE_URI}${
+                  order.product_details.image_src
+                }`}
                 alt={order.product_details.name}
               />
               <CardContent className="card-content">

@@ -80,7 +80,7 @@ export default function ProductsContainer() {
       body: JSON.stringify({ email: userEmail, productDetails: product }),
     });
     if (response.ok) {
-      alert(`Order placed for ${product.name} at $${product.price}`);
+      alert(`Order placed for ${product.name} at ₹${product.price}`);
     }
   };
 
@@ -127,7 +127,9 @@ export default function ProductsContainer() {
               <CardMedia
                 component="img"
                 height="160"
-                image={"http://localhost:3500" + product.image_src}
+                image={`${import.meta.env.VITE_EXPRESS_API_BASE_URI}${
+                  product.image_src
+                }`}
                 alt={product.name}
               />
               <CardContent>
@@ -138,7 +140,7 @@ export default function ProductsContainer() {
                   {product.description}
                 </Typography>
                 <Typography variant="h6" color="primary" mt={1}>
-                  ${product.price.toFixed(2)}
+                  ₹{product.price.toFixed(2)}
                 </Typography>
                 <Button
                   variant="contained"

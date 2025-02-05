@@ -64,6 +64,8 @@ const LoginPage = () => {
         default:
           break;
       }
+    } else {
+      alert("Username or Password Incorrect!");
     }
   };
 

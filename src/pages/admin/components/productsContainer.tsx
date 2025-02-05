@@ -123,7 +123,9 @@ export default function AdminProductsContainer() {
               <CardMedia
                 component="img"
                 className="product-image"
-                image={"http://localhost:3500" + product.image_src}
+                image={`${import.meta.env.VITE_EXPRESS_API_BASE_URI}${
+                  product.image_src
+                }`}
                 alt={product.name}
               />
 
