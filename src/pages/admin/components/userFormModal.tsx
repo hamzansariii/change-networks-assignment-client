@@ -65,6 +65,19 @@ const UserFormModal: React.FC<Props> = ({
     if (user) setFormData(user);
   }, [user]);
 
+  const handleCloseModal = () => {
+    setFormData({
+      _id: "",
+      name: "",
+      age: 0,
+      email: "",
+      password: "",
+      role: "",
+      manager_email: "",
+    });
+    handleClose();
+  };
+
   useEffect(() => {
     const fetchManagerEmails = async () => {
       const response = await fetch(
@@ -114,7 +127,7 @@ const UserFormModal: React.FC<Props> = ({
 
     if (response.ok) {
       onSuccess();
-      handleClose();
+      handleCloseModal();
     }
   };
 
@@ -138,12 +151,12 @@ const UserFormModal: React.FC<Props> = ({
 
     if (response.ok) {
       onSuccess();
-      handleClose();
+      handleCloseModal();
     }
   };
 
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal open={open} onClose={handleCloseModal}>
       <Box sx={style}>
         <Typography variant="h6">
           {user ? "Edit User" : "Add New User"}
