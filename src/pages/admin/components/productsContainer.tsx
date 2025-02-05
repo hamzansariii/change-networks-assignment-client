@@ -13,8 +13,8 @@ import {
   Pagination,
 } from "@mui/material";
 import { useAuth } from "../../../contexts/auth";
-import ProductFormModal from "./ProductFormModal";
 import "../../../styles/AdminProducts.css"; // External CSS
+import ProductFormModal from "./productFormModal";
 
 interface Product {
   id: number;
@@ -48,7 +48,7 @@ export default function AdminProductsContainer() {
     setProducts(sortedProducts);
   };
 
-  const handlePageChange = (event: any, value: number) => setPage(value);
+  const handlePageChange = (value: number) => setPage(value);
 
   const startIndex = (page - 1) * productsPerPage;
   const paginatedProducts = products.slice(

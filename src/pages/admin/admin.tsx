@@ -20,8 +20,8 @@ function TabPanel(props: {
 export default function AdminPage() {
   const [value, setValue] = useState("1");
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+  const handleChange = (newValue: any) => {
+    setValue(String(newValue)); // Ensuring it's a string for type safety
   };
 
   return (

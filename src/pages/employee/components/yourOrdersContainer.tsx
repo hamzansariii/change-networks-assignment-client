@@ -5,10 +5,6 @@ import {
   CardContent,
   CardMedia,
   Typography,
-  Select,
-  FormControl,
-  InputLabel,
-  MenuItem,
   Pagination,
 } from "@mui/material";
 import { useAuth } from "../../../contexts/auth";
@@ -57,7 +53,7 @@ export default function YourOrdersContainer() {
     fetchOrders();
   }, [userEmail, token]);
 
-  const handlePageChange = (event: any, value: number) => setPage(value);
+  const handlePageChange = (value: number) => setPage(value);
 
   const startIndex = (page - 1) * ordersPerPage;
   const paginatedOrders = orders.slice(startIndex, startIndex + ordersPerPage);

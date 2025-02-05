@@ -1,12 +1,29 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
-const AuthContext = createContext();
+// Define the AuthContext type
+interface AuthContextType {
+  token: string | "";
+  setToken: (value: string | null) => void;
+  isAuthenticated: boolean;
+  setIsAuthenticated: (value: boolean) => void;
+  role: string | null;
+  setRole: (value: string | null) => void;
+  userEmail: string | null;
+  setUserEmail: (value: string | null) => void;
+}
 
-const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userEmail, setUserEmail] = useState(null);
-  const [role, setRole] = useState(null);
+// Create context with a default undefined value
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [token, setToken] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
 
   return (
     <AuthContext.Provider
@@ -26,6 +43,13 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-const useAuth = () => useContext(AuthContext);
+// Custom hook to use AuthContext safely
+const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};
 
-export { AuthContext, AuthProvider, useAuth };
+export { AuthProvider, useAuth };

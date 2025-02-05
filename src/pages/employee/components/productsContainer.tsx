@@ -22,152 +22,9 @@ interface Product {
   image_src: string;
 }
 
-const sampleProducts: Product[] = [
-  {
-    id: 1,
-    name: "Apple Watch",
-    description: "Smartwatch with fitness tracking",
-    price: 299.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 2,
-    name: "Sony Headphones",
-    description: "Noise-cancelling over-ear",
-    price: 149.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 3,
-    name: "MacBook Pro",
-    description: "Powerful laptop for professionals",
-    price: 1999.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 4,
-    name: "Samsung Galaxy S23",
-    description: "Flagship Android smartphone",
-    price: 899.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 5,
-    name: "Nike Air Max",
-    description: "Comfortable and stylish sneakers",
-    price: 129.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 6,
-    name: "Canon EOS Camera",
-    description: "DSLR camera for photography enthusiasts",
-    price: 799.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 7,
-    name: "Fitbit Tracker",
-    description: "Fitness tracker for monitoring activity",
-    price: 99.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 8,
-    name: "Bose Speaker",
-    description: "Portable Bluetooth speaker with great sound",
-    price: 249.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 9,
-    name: "Kindle Paperwhite",
-    description: "E-reader for book lovers",
-    price: 139.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 10,
-    name: "Nintendo Switch",
-    description: "Hybrid gaming console",
-    price: 299.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 11,
-    name: "Dell XPS 15",
-    description: "High-performance laptop for creators",
-    price: 1799.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 12,
-    name: "LG OLED TV",
-    description: "High-definition television with stunning picture",
-    price: 1499.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 13,
-    name: "KitchenAid Mixer",
-    description: "Stand mixer for baking enthusiasts",
-    price: 399.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 14,
-    name: "Instant Pot",
-    description: "Multi-functional pressure cooker",
-    price: 99.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 15,
-    name: "Roomba Vacuum",
-    description: "Robot vacuum cleaner for easy cleaning",
-    price: 349.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 16,
-    name: "GoPro Hero 11",
-    description: "Action camera for capturing adventures",
-    price: 499.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 17,
-    name: "DJI Drone",
-    description: "Drone for aerial photography and videography",
-    price: 799.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 18,
-    name: "Fender Guitar",
-    description: "Electric guitar for musicians",
-    price: 699.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 19,
-    name: "Herman Miller Chair",
-    description: "Ergonomic office chair for comfort",
-    price: 999.99,
-    image: "https://via.placeholder.com/200",
-  },
-  {
-    id: 20,
-    name: "Yeti Cooler",
-    description: "Durable cooler for outdoor activities",
-    price: 299.99,
-    image: "https://via.placeholder.com/200",
-  },
-];
-
 export default function ProductsContainer() {
   const { token, userEmail } = useAuth();
-  const [products, setProducts] = useState<Product[]>(sampleProducts);
+  const [products, setProducts] = useState<Product[]>([]);
   const [sortOption, setSortOption] = useState<string>("default");
   const [page, setPage] = useState<number>(1);
   const productsPerPage = 6;
@@ -186,7 +43,9 @@ export default function ProductsContainer() {
     setProducts(sortedProducts);
   };
 
-  const handlePageChange = (event: any, value: number) => setPage(value);
+  const handlePageChange = (page: number) => {
+    setPage(page); // Assuming you have a state setter like setPage
+  };
 
   const startIndex = (page - 1) * productsPerPage;
   const paginatedProducts = products.slice(

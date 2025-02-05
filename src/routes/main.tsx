@@ -15,14 +15,10 @@ export default function Router() {
   const {
     isAuthenticated,
     setIsAuthenticated,
-    token,
     setToken,
     role,
     setRole,
-    userEmail,
     setUserEmail,
-    roleArray,
-    setRoleArray,
   } = useAuth();
   const [loading, setLoading] = useState(true);
   const localToken = localStorage.getItem("AuthToken");

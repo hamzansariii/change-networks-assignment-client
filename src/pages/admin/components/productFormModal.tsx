@@ -1,4 +1,3 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -18,19 +17,32 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+interface ProductFormModalProps {
+  open: boolean;
+  handleClose: () => void;
+  product?: Product;
+  onProductUpdated: () => void;
+}
+interface Product {
+  _id?: string;
+  name: string;
+  description: string;
+  price: number;
+  image: string | File; // Allow both string (URL) and File
+}
 
 export default function ProductFormModal({
   open,
   handleClose,
   product,
   onProductUpdated,
-}) {
+}: ProductFormModalProps) {
   const { token } = useAuth();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<Product>({
     name: "",
     description: "",
-    price: "",
-    image: null,
+    price: 0,
+    image: "",
   });
 
   useEffect(() => {
@@ -38,20 +50,20 @@ export default function ProductFormModal({
       setFormData({
         name: product.name || "",
         description: product.description || "",
-        price: product.price || "",
-        image: null, // Reset image field for new uploads
+        price: product.price || 0,
+        image: "", // Reset image field for new uploads
       });
     } else {
       setFormData({
         name: "",
         description: "",
-        price: "",
-        image: null,
+        price: 0, // Ensure price is a number
+        image: "", // Ensure consistency in image handling
       });
     }
   }, [product]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -59,17 +71,18 @@ export default function ProductFormModal({
     }));
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prev) => ({
-      ...prev,
-      image: file,
-    }));
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFormData((prev) => ({
+        ...prev,
+        image: file,
+      }));
+    }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!formData.image && !product) {
       alert("Please upload an image.");
       return;
@@ -78,7 +91,7 @@ export default function ProductFormModal({
     const formDataToSend = new FormData();
     formDataToSend.append("name", formData.name);
     formDataToSend.append("description", formData.description);
-    formDataToSend.append("price", formData.price);
+    formDataToSend.append("price", String(formData.price));
     if (formData.image) formDataToSend.append("image", formData.image);
 
     const endpoint = product

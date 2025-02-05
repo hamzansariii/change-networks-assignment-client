@@ -2,7 +2,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import { Avatar, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useAuth } from "../contexts/auth";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/images/logo.png";
