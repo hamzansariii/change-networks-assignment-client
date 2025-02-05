@@ -10,7 +10,7 @@ export default defineConfig({
   server:{
     port:Number(process.env.VITE_CLIENT_PORT) || 6000,
     proxy:{
-      '/api':`http://localhost:${process.env.VITE_SERVER_PORT}`
+      '/api':`${process.env.VITE_EXPRESS_API_BASE_URI}`
     }
   }
 })
