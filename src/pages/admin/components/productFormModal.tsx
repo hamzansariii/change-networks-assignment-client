@@ -65,6 +65,16 @@ export default function ProductFormModal({
     }
   }, [product]);
 
+  const handleCloseModal = () => {
+    setFormData({
+      name: "",
+      description: "",
+      price: 0,
+      image_src: "",
+    });
+    handleClose();
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -131,7 +141,7 @@ export default function ProductFormModal({
             ? "Product updated successfully!"
             : "Product added successfully!"
         );
-        handleClose();
+        handleCloseModal();
         onProductUpdated();
       } else {
         alert("Error submitting the form.");
@@ -165,7 +175,7 @@ export default function ProductFormModal({
 
       if (response.ok) {
         alert("Product deleted successfully!");
-        handleClose();
+        handleCloseModal();
         onProductUpdated();
       } else {
         alert("Error deleting the product.");
@@ -177,7 +187,7 @@ export default function ProductFormModal({
   };
 
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal open={open} onClose={handleCloseModal}>
       <Box sx={style}>
         <Typography variant="h6">
           {product ? "Edit Product" : "Add New Product"}
