@@ -39,7 +39,7 @@ interface User {
 interface Props {
   open: boolean;
   handleClose: () => void;
-  user: User;
+  user: User | null;
   onSuccess: () => void;
 }
 

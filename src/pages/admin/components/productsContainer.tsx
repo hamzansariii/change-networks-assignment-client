@@ -21,7 +21,7 @@ interface Product {
   name: string;
   description: string;
   price: number;
-  image_src: string;
+  image_src: string | File;
 }
 
 export default function AdminProductsContainer() {

@@ -20,7 +20,7 @@ const style = {
 interface ProductFormModalProps {
   open: boolean;
   handleClose: () => void;
-  product?: Product;
+  product?: Product | null;
   onProductUpdated: () => void;
 }
 interface Product {
@@ -28,7 +28,7 @@ interface Product {
   name: string;
   description: string;
   price: number;
-  image: string | File; // Allow both string (URL) and File
+  image_src: string | File; // Allow both string (URL) and File
 }
 
 export default function ProductFormModal({
@@ -42,7 +42,7 @@ export default function ProductFormModal({
     name: "",
     description: "",
     price: 0,
-    image: "",
+    image_src: "",
   });
 
   useEffect(() => {
@@ -51,14 +51,14 @@ export default function ProductFormModal({
         name: product.name || "",
         description: product.description || "",
         price: product.price || 0,
-        image: "", // Reset image field for new uploads
+        image_src: "", // Reset image_src field for new uploads
       });
     } else {
       setFormData({
         name: "",
         description: "",
         price: 0, // Ensure price is a number
-        image: "", // Ensure consistency in image handling
+        image_src: "", // Ensure consistency in image handling
       });
     }
   }, [product]);
@@ -76,14 +76,14 @@ export default function ProductFormModal({
     if (file) {
       setFormData((prev) => ({
         ...prev,
-        image: file,
+        image_src: file,
       }));
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formData.image && !product) {
+    if (!formData.image_src && !product) {
       alert("Please upload an image.");
       return;
     }
@@ -92,7 +92,8 @@ export default function ProductFormModal({
     formDataToSend.append("name", formData.name);
     formDataToSend.append("description", formData.description);
     formDataToSend.append("price", String(formData.price));
-    if (formData.image) formDataToSend.append("image", formData.image);
+    if (formData.image_src)
+      formDataToSend.append("image_src", formData.image_src);
 
     const endpoint = product
       ? `/api/products/update/${product._id}`
