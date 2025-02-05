@@ -25,10 +25,13 @@ const UserTable = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const response = await fetch(`/api/users`, {
-        method: "GET",
-        headers: { "x-access-token": token },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/users`,
+        {
+          method: "GET",
+          headers: { "x-access-token": token },
+        }
+      );
       if (response.ok) {
         setData(await response.json());
       }

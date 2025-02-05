@@ -64,10 +64,13 @@ export default function AdminProductsContainer() {
 
   useEffect(() => {
     const fetchProductsData = async () => {
-      const response = await fetch(`/api/products`, {
-        method: "GET",
-        headers: { "x-access-token": token },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/products`,
+        {
+          method: "GET",
+          headers: { "x-access-token": token },
+        }
+      );
       if (response.ok) {
         setProducts(await response.json());
       }

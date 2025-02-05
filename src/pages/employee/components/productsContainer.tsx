@@ -59,10 +59,13 @@ export default function ProductsContainer() {
 
   useEffect(() => {
     const fetchProductsData = async () => {
-      const response = await fetch(`/api/products`, {
-        method: "GET",
-        headers: { "x-access-token": token },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/products`,
+        {
+          method: "GET",
+          headers: { "x-access-token": token },
+        }
+      );
       if (response.ok) {
         setProducts(await response.json());
       }
@@ -71,14 +74,17 @@ export default function ProductsContainer() {
   }, []);
 
   const handleOrder = async (product: Product) => {
-    const response = await fetch("/api/orders/place-order", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token,
-      },
-      body: JSON.stringify({ email: userEmail, productDetails: product }),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/orders/place-order`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+        body: JSON.stringify({ email: userEmail, productDetails: product }),
+      }
+    );
     if (response.ok) {
       alert(`Order placed for ${product.name} at ₹${product.price}`);
     }

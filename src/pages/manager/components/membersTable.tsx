@@ -24,10 +24,13 @@ const MembersTable = () => {
 
   useEffect(() => {
     const fetchMembers = async () => {
-      const response = await fetch(`/api/my-team/${userEmail}`, {
-        method: "GET",
-        headers: { "x-access-token": token },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/my-team/${userEmail}`,
+        {
+          method: "GET",
+          headers: { "x-access-token": token },
+        }
+      );
       if (response.ok) {
         setMembers(await response.json());
       }

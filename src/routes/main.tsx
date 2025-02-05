@@ -27,12 +27,15 @@ export default function Router() {
     const checkAuth = async () => {
       try {
         if (localToken) {
-          const response = await fetch("/api/verify-token", {
-            method: "GET",
-            headers: {
-              "x-access-token": localToken,
-            },
-          });
+          const response = await fetch(
+            `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/verify-token`,
+            {
+              method: "GET",
+              headers: {
+                "x-access-token": localToken,
+              },
+            }
+          );
           if (response.ok) {
             const responseData = await response.json();
             setToken(localToken);

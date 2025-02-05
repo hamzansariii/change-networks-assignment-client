@@ -81,10 +81,15 @@ const UserFormModal: React.FC<Props> = ({
 
   useEffect(() => {
     const fetchManagerEmails = async () => {
-      const response = await fetch(`/api/users/managers/emails`, {
-        method: "GET",
-        headers: { "x-access-token": token },
-      });
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_EXPRESS_API_BASE_URI
+        }/api/users/managers/emails`,
+        {
+          method: "GET",
+          headers: { "x-access-token": token },
+        }
+      );
       if (response.ok) {
         setManagerEmailList(await response.json());
       }
@@ -105,7 +110,11 @@ const UserFormModal: React.FC<Props> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const method = user ? "PUT" : "POST"; // PUT for edit, POST for new user
-    const url = user ? `/api/users/update/${user._id}` : "/api/users/add";
+    const url = user
+      ? `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/users/update/${
+          user._id
+        }`
+      : `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/users/add`;
 
     if (!user) {
       delete formData._id;

@@ -42,9 +42,14 @@ export default function YourOrdersContainer() {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await fetch(`/api/my-orders/${userEmail}`, {
-        headers: { "x-access-token": token },
-      });
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_EXPRESS_API_BASE_URI
+        }/api/my-orders/${userEmail}`,
+        {
+          headers: { "x-access-token": token },
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         setOrders(data);

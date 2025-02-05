@@ -96,8 +96,10 @@ export default function ProductFormModal({
       formDataToSend.append("image_src", formData.image_src);
 
     const endpoint = product
-      ? `/api/products/update/${product._id}`
-      : "/api/products/add";
+      ? `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/products/update/${
+          product._id
+        }`
+      : `${import.meta.env.VITE_EXPRESS_API_BASE_URI}/api/products/add`;
     const method = product ? "PUT" : "POST";
 
     try {
